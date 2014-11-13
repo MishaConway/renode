@@ -48,9 +48,8 @@ defmodule Renode.Watcher do
   end
 
   def handle_call({:put, node}, _from, retry_set) do
-    retry_set = HashSet.put(retry_set, node)
-    unless empty?(retry_set), do: heartbeat!
-    {:reply, :ok, retry_set}
+    heartbeat!
+    {:reply, :ok, HashSet.put(retry_set, node)}
   end
 
   def handle_call({:delete, node}, _from, retry_set) do
